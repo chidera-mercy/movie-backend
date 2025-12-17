@@ -9,7 +9,17 @@ import requests
 from functools import lru_cache
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend-backend communication
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "http://localhost:*",
+            "https://movie-frontend-six-rust.vercel.app",
+            "https://*.vercel.app"  # Allow all Vercel domains
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
 # ==================== TMDB API CONFIGURATION ====================
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")  # Your API key
